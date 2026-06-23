@@ -1,0 +1,4 @@
+content_dir,./Prime Classes/Major Projects/Natural Style Transfer/content_data
+style_dir,./Prime Classes/Major Projects/Natural Style Transfer/style_data
+vgg,./Prime Classes/Major Projects/Natural Style Transfer/vgg_normalized.pth
+experiment,experiment2
