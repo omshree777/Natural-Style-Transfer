@@ -49,11 +49,11 @@ def allowed_file(filename):
     
 def style_transfer(content_image,style_image,encoder,decoder,alpha,device):
         content_transform=transforms.Compose([
-            transforms.Resize(512),
+            transforms.Resize(128),
             transforms.ToTensor()]
         )
         style_transform=transforms.Compose([
-            transforms.Resize(512),
+            transforms.Resize(128),
             transforms.ToTensor()]
         )
         content_image=content_transform(content_image).unsqueeze(0).to(device)
@@ -130,9 +130,10 @@ def index():
 def upload_image(filename):
      return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
 
+EXAMPLES_DIR = BASE_DIR / "examples"
 @app.route('/examples/<path:filename>')
-def send_example(filename):
-     return send_from_directory('examples',filename)
+def send_examples(filename):
+    return send_from_directory(EXAMPLES_DIR, filename)
 
 if __name__=='__main__':
     from werkzeug.serving import run_simple
