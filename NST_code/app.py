@@ -9,10 +9,12 @@ from wtforms.validators import InputRequired
 from PIL import Image
 from torchvision import transforms
 import io
+from pathlib import Path
 # import your existing AdIn code
 from NST_code.utils.models import VGGEncoder,Decoder
 from NST_code.utils.utils import adaptive_instance_normalization,calc_mean_std
 
+BASE_DIR=Path(__file__).resolve().parent
 app=Flask(__name__)
 app.config['SECRET_KEY']= 'supersecretkey'
 app.config['UPLOAD_FOLDER']='static/uploads'
@@ -32,9 +34,12 @@ class UploadForm(FlaskForm):
 
 device=torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-encoder=VGGEncoder('vgg_normalised.pth').to(device)
-decoder=Decoder().to(device)
-decoder.load_state_dict(torch.load(r'C:\Users\91749\Prime Classes\Major Projects\Natural Style Transfer\experiment\bigdataset\decoder_1.pth'))
+encoder=VGGEncoder(str(BASE_DIR / 'vgg_normalised.pth')).to(device)
+decoder = Decoder().to(device)
+decoder_path = BASE_DIR / "experiment" / "bigdataset" / "decoder_1.pth"
+decoder.load_state_dict(
+    torch.load(decoder_path, map_location=device)
+)
 
 encoder.eval()
 decoder.eval()
